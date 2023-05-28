@@ -1,4 +1,5 @@
 from http.client import GONE
+from math import sqrt
 from multiprocessing.managers import BaseProxy
 from tkinter import *
 
@@ -22,28 +23,47 @@ def down(event):
     
 
 def obst():
-    global X,Y,run, OX, OY
+    global X,Y,run, OX, OY, speed
     if run == True:
-        OX = OX-3
+        run = contacte()
+        print(contacte())
+        OX = OX-(5*speed)
+        #augmenter la rapidité de l'obstacle
+        if(speed < 3):
+            speed = speed*1.001
+        elif(speed < 5):
+            speed = speed*1.000001
+        else:
+            speed = speed * 1.0000001
+
         Canevas.coords(obstacle,OX, OY , OX + 20, OY + 20)
 
         if OX > -30:
         # mise à jour toutes les 50 ms
+            run = contacte()
             fenetre.after(50,obst)
-            print(OX)
+            
+            
         else :
             OX = bOX
+            run = contacte()
             fenetre.after(50,obst)
-            print(OX)
+        run = contacte()
+            
+            
+        
         
             
 def contacte():
-    global X,Y
-    
+    global X,Y,OX,OY,run
+    d = sqrt((OX-X)**2 + (OY - Y)**2)
+    return (int(d) != 0)
+
 
 def jeu():
-    global run
+    global run, speed
     run = True
+    speed = 1.00
     obst()
     
     
@@ -64,7 +84,7 @@ OY = BASE_Y
 Canevas = Canvas(fenetre,width=300,height=200,bg ='cyan')
 # Création d'un objet graphique
 rond = Canevas.create_oval(5,5,TAILLE*2,TAILLE*2,fill='red')
-obstacle = Canevas.create_oval(5,5,TAILLE*2,TAILLE*2,fill='white')
+obstacle = Canevas.create_rectangle(5,5,TAILLE*2,TAILLE*2,fill='white')
 terre = Canevas.create_rectangle(0,170,1000,1000,fill='yellow')
 # La méthode bind() permet de lier un événement avec une fonction
 Canevas.focus_set()
