@@ -2,16 +2,21 @@ from http.client import GONE
 from math import sqrt
 from multiprocessing.managers import BaseProxy
 from tkinter import *
+from PIL import Image,ImageTk
 
 # fonction de déplacement
+
+InAir=False
 
 def upP(event):
     global X,Y,BASE_Y
     touche = event.keysym
     if touche == 'Up':
         Y = BASE_Y - DEP
-    Canevas.coords(rond,X , Y , X + 20, Y + 20)
-    
+    Canevas.coords(rond,0 ,80)
+    InAir = True
+
+
 def down(event):
     global X,Y,BASE_Y
     touche = event.keysym
@@ -19,8 +24,9 @@ def down(event):
     if touche == 'Up':
         while(Y < BASE_Y):
             Y +=1
-    Canevas.coords(rond,X , Y , X + 20, Y + 20)
-    
+    Canevas.coords(rond,0 , 110)
+    InAir = False
+
 
 def obst():
     global X,Y,run, OX, OY, speed
@@ -42,22 +48,24 @@ def obst():
         # mise à jour toutes les 50 ms
             run = contacte()
             fenetre.after(50,obst)
-            
-            
+
+
         else :
             OX = bOX
             run = contacte()
             fenetre.after(50,obst)
         run = contacte()
-            
-            
-        
-        
-            
+
+
+
+
+
 def contacte():
-    global X,Y,OX,OY,run
-    d = sqrt((OX-X)**2 + (OY - Y)**2)
-    return (int(d) != 0)
+    if -10<OX<10 and InAir == False:
+        print("nigga",InAir)
+        return False
+    else:
+        return True
 
 
 def jeu():
@@ -65,15 +73,15 @@ def jeu():
     run = True
     speed = 1.00
     obst()
-    
-    
-    
+
+
+
 # Création de la fenêtre principale
 fenetre = Tk()
 fenetre.title("Déplacement clavier")
 
 # Création d'un widget Canvas
-DEP = 40
+DEP = 70
 TAILLE = 10
 X = 5
 BASE_Y = 150
@@ -83,7 +91,9 @@ OX = bOX
 OY = BASE_Y
 Canevas = Canvas(fenetre,width=300,height=200,bg ='cyan')
 # Création d'un objet graphique
-rond = Canevas.create_oval(5,5,TAILLE*2,TAILLE*2,fill='red')
+img = ImageTk.PhotoImage(Image.open("textures/walkingAnim/walk.png"))
+rond = Canevas.create_image(0,110,anchor=NW,image=img)
+
 obstacle = Canevas.create_rectangle(5,5,TAILLE*2,TAILLE*2,fill='white')
 terre = Canevas.create_rectangle(0,170,1000,1000,fill='yellow')
 # La méthode bind() permet de lier un événement avec une fonction
