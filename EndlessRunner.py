@@ -19,10 +19,9 @@ def chrono():
         fenetre.after(1000,chrono)
         print(s)
         s=s+1
-        # Update the score variable
         score_var.set(f"Score: {s}")
 
-
+#Fonction upP: Lorsque la touche "Up" est appuyée, le personnage saute et retombe après 2 secondes
 def upP(event):
     global X,Y,BASE_Y,InAir
     touche = event.keysym
@@ -30,9 +29,9 @@ def upP(event):
         Y = BASE_Y - DEP
         Canevas.coords(rond,0 ,80)
         InAir = True
-        # Delay falling down by 2 seconds
         Canevas.after(2000, down)
-
+        
+#Fonction down(): Lorsque le button "Up" est relachée, le personnage tombe par terre
 def down():
     global X,Y,BASE_Y,InAir
     while(Y < BASE_Y):
@@ -40,6 +39,7 @@ def down():
     Canevas.coords(rond,0 , 110)
     InAir = False
 
+#Fonction obst(): 
 def obst():
     global X,Y,run, OX, OY, speed
     if run == True:
