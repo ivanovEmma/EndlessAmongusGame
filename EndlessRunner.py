@@ -39,7 +39,7 @@ def down():
     Canevas.coords(rond,0 , 110)
     InAir = False
 
-#Fonction obst(): 
+#Fonction obst(): controlle l'obstacle
 def obst():
     global X,Y,run, OX, OY, speed
     if run == True:
@@ -71,7 +71,7 @@ def obst():
 
 
 
-
+#Fonction contacte - vérifie si il y a un contacte entre obstacle et personnage
 def contacte():
     global InAir
     if -10<OX<40 and InAir == False:
@@ -81,7 +81,7 @@ def contacte():
     else:
         return True
 
-
+#Fonction jeu: contrôle le jeu
 def jeu():
     global run, speed
     run = True
