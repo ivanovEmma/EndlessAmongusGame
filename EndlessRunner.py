@@ -9,16 +9,16 @@ from PIL import Image,ImageTk
 InAir=False
 
 def upP(event):
-    global X,Y,BASE_Y
+    global X,Y,BASE_Y,InAir
     touche = event.keysym
     if touche == 'Up':
         Y = BASE_Y - DEP
-    Canevas.coords(rond,0 ,80)
-    InAir = True
+        Canevas.coords(rond,0 ,80)
+        InAir = True
 
 
 def down(event):
-    global X,Y,BASE_Y
+    global X,Y,BASE_Y,InAir
     touche = event.keysym
     # déplacement vers le haut
     if touche == 'Up':
@@ -61,8 +61,10 @@ def obst():
 
 
 def contacte():
-    if -10<OX<10 and InAir == False:
-        print("nigga",InAir)
+    global InAir
+    if -10<OX<40 and InAir == False:
+
+        print("kkv",InAir)
         return False
     else:
         return True
@@ -78,7 +80,7 @@ def jeu():
 
 # Création de la fenêtre principale
 fenetre = Tk()
-fenetre.title("Déplacement clavier")
+fenetre.title("jeu amoguse")
 
 # Création d'un widget Canvas
 DEP = 70
