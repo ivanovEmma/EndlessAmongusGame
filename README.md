@@ -1,3 +1,2 @@
 # EndlessAmongusGame
 
-jeu gai (=heureux)
