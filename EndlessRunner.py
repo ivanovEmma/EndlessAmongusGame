@@ -63,7 +63,7 @@ def obst():
 def contacte():
     global InAir
     if -10<OX<40 and InAir == False:
-
+        rond = Canevas.create_image(0,0,anchor=NW,image=death)
         print("kkv",InAir)
         return False
     else:
@@ -94,6 +94,7 @@ OY = BASE_Y
 Canevas = Canvas(fenetre,width=300,height=200,bg ='cyan')
 # Création d'un objet graphique
 img = ImageTk.PhotoImage(Image.open("textures/walkingAnim/walk.png"))
+death = ImageTk.PhotoImage(Image.open("textures/skulle.png"))
 rond = Canevas.create_image(0,110,anchor=NW,image=img)
 
 obstacle = Canevas.create_rectangle(5,5,TAILLE*2,TAILLE*2,fill='white')
