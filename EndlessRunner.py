@@ -3,10 +3,25 @@ from math import sqrt
 from multiprocessing.managers import BaseProxy
 from tkinter import *
 from PIL import Image,ImageTk
+import datetime
+import threading
+
 
 # fonction de déplacement
 
 InAir=False
+
+s = 1
+
+def chrono():
+    global s, run, score_var
+    if run==True:
+        fenetre.after(1000,chrono)
+        print(s)
+        s=s+1
+        # Update the score variable
+        score_var.set(f"Score: {s}")
+
 
 def upP(event):
     global X,Y,BASE_Y,InAir
@@ -15,24 +30,21 @@ def upP(event):
         Y = BASE_Y - DEP
         Canevas.coords(rond,0 ,80)
         InAir = True
+        # Delay falling down by 2 seconds
+        Canevas.after(2000, down)
 
-
-def down(event):
+def down():
     global X,Y,BASE_Y,InAir
-    touche = event.keysym
-    # déplacement vers le haut
-    if touche == 'Up':
-        while(Y < BASE_Y):
-            Y +=1
+    while(Y < BASE_Y):
+        Y +=1
     Canevas.coords(rond,0 , 110)
     InAir = False
-
 
 def obst():
     global X,Y,run, OX, OY, speed
     if run == True:
         run = contacte()
-        print(contacte())
+        #print(contacte())
         OX = OX-(5*speed)
         #augmenter la rapidité de l'obstacle
         if(speed < 3):
@@ -77,7 +89,6 @@ def jeu():
     obst()
 
 
-
 # Création de la fenêtre principale
 fenetre = Tk()
 fenetre.title("jeu amoguse")
@@ -102,8 +113,16 @@ terre = Canevas.create_rectangle(0,170,1000,1000,fill='yellow')
 # La méthode bind() permet de lier un événement avec une fonction
 Canevas.focus_set()
 Canevas.bind('<KeyPress>',upP)
-Canevas.bind('<KeyRelease>',down)
 Canevas.pack(padx=10,pady=10,side=LEFT)
 Button(fenetre,text=' Quitter' ,command=fenetre.destroy).pack(side=BOTTOM)
+
+# Score display
+score_var = StringVar()
+score_var.set("Score: 0")
+score_label = Label(fenetre, textvariable=score_var)
+score_label.pack(side=RIGHT)
+
 jeu()
+chrono()
 fenetre.mainloop()
+
