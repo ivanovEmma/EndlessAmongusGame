@@ -66,7 +66,7 @@ def obst():
             #change la couleur de l'obstacle
             c = c + 1
             if(c%3 == 0):
-                Canevas.itemconfig(obstacle, fill='white')
+                Canevas.itemconfig(obstacle, fill='yellow')
             elif(c%3 == 1):
                 Canevas.itemconfig(obstacle, fill='red')
             elif(c%3 == 2):
